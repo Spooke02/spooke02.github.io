@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spooke - tools and small products</title>
+<meta name="description" content="Spooke builds practical software: local-first AI tools, dashboards and spreadsheets for freelancers.">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--hi:#f5c542}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542;--hi:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+header{padding:64px 0 24px}h1{font-size:2.4rem;line-height:1.15;margin:0 0 12px}h1 span{color:var(--hi)}
+p.lead{font-size:1.15rem;color:var(--muted);max-width:640px;margin:0}
+section{padding:28px 0}h2{font-size:1.2rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{margin:0 0 6px;font-size:1.1rem}.card p{margin:0 0 12px;color:var(--muted);font-size:.97rem}
+.tag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px;margin:0 6px 6px 0;color:var(--muted)}
+a.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}
+@media (prefers-color-scheme:dark){a.btn{color:#0f1624}}
+a.btn:focus-visible,a:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+footer{padding:36px 0 56px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Practical software, <span>built carefully.</span></h1>
+  <p class="lead">I'm Spooke. I build local-first AI tools, data dashboards and small products that solve one problem well.</p>
+</header>
+
+<section aria-labelledby="products">
+  <h2 id="products">Product</h2>
+  <div class="card">
+    <h3>Freelancer Income Tracker (India)</h3>
+    <p>An Excel kit for freelancers paid in foreign currency: payment and expense log, financial-year summary, GST-threshold progress, e-FIRA/FIRC checks, plus invoice and proposal templates. Record-keeping only, not tax advice.</p>
+    <a class="btn" href="https://spooke0.gumroad.com/l/freelancer-tracker-india">Get it on Gumroad</a>
+  </div>
+</section>
+
+<section aria-labelledby="work">
+  <h2 id="work">Selected work</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Reel Intelligence</h3>
+      <p>Share a reel, video or photo from your phone; a laptop pipeline transcribes it, reads on-screen text, detects scenes and returns a short summary in a chat. Runs locally, with a searchable library.</p>
+      <span class="tag">FastAPI</span><span class="tag">Next.js</span><span class="tag">Kotlin</span><span class="tag">Whisper</span><span class="tag">SQLite</span>
+    </div>
+    <div class="card">
+      <h3>ArthaAI</h3>
+      <p>A dashboard for Indian equities: indicators, a bar-by-bar backtester that avoids look-ahead bias, and a paper-trading engine. No real money moves; the backtester's honest results informed what not to trade.</p>
+      <span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">SQLite</span><span class="tag">Backtesting</span>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="how">
+  <h2 id="how">How I work</h2>
+  <div class="grid">
+    <div class="card"><h3>Specific scope</h3><p>One clear deliverable, one price, one date, agreed in writing.</p></div>
+    <div class="card"><h3>Tested</h3><p>Features ship with checks, and results are reported as they are, including the bad ones.</p></div>
+    <div class="card"><h3>Private by default</h3><p>Data stays on your machine unless there is a reason to move it.</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Spooke. Contact: <a href="mailto:spooke002@gmail.com">spooke002@gmail.com</a></p>
+</footer>
+</div>
+</body>
+</html>
