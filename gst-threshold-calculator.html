@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GST Threshold Calculator for Freelancers in India</title>
+<meta name="description" content="Free calculator: how close is your freelance income to the Rs 20 lakh GST registration threshold? Enter income in INR or foreign currency and see your progress and projected crossing month.">
+<link rel="canonical" href="https://spooke02.github.io/gst-threshold-calculator.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57;--warn:#b8860b;--bad:#b33a3a}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+.row{display:grid;gap:12px;grid-template-columns:1fr 1fr}@media(max-width:560px){.row{grid-template-columns:1fr}}
+.bar{height:14px;background:var(--line);border-radius:8px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}a{color:var(--accent)}
+.cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+nav a{margin-right:14px}details{margin:8px 0}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="/usd-to-inr-freelance-income.html">USD to INR converter</a><a href="/efira-firc-guide.html">e-FIRA/FIRC guide</a></nav>
+<h1>GST threshold calculator for freelancers in India</h1>
+<p class="lead">See how close your freelance income is to the GST registration threshold, and when you might cross it at your current pace.</p>
+
+<div class="card">
+  <div class="row">
+    <div><label for="inc">Income so far this financial year</label><input id="inc" type="number" min="0" step="any" value="450000"></div>
+    <div><label for="cur">Currency</label><select id="cur"><option value="INR">INR</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option></select></div>
+  </div>
+  <div class="row" id="fxrow" hidden><div><label for="fx">INR per 1 unit of that currency</label><input id="fx" type="number" min="0" step="any" value="84"></div><div class="note" style="align-self:end">Use the rate you actually received, or the average rate.</div></div>
+  <div class="row">
+    <div><label for="mon">Months of the year already passed (April = 1)</label><input id="mon" type="number" min="1" max="12" value="6"></div>
+    <div><label for="thr">Threshold</label><select id="thr"><option value="2000000">Rs 20 lakh (most states, services)</option><option value="1000000">Rs 10 lakh (special-category states)</option></select></div>
+  </div>
+</div>
+
+<div class="card" aria-live="polite">
+  <div class="big" id="pct">0%</div><div class="bar"><i id="fill"></i></div>
+  <p id="status"></p><p id="proj" class="note"></p>
+</div>
+
+<p class="note">This is an estimate for planning, not tax or legal advice. The threshold is based on aggregate turnover and some cases (for example certain inter-state supplies) follow different rules. Confirm your situation, and how export of services is treated, with a Chartered Accountant.</p>
+
+<div class="card"><b>Want to keep this up to date automatically?</b>
+<p>The free <a href="https://github.com/Spooke02/freelance-ledger">FreelanceLedger</a> app reads your PayPal payments and tracks this for you. Or get the simple Excel tracker with invoice and proposal templates:</p>
+<a class="cta" href="https://spooke0.gumroad.com/l/freelancer-tracker-india">Freelancer Income Tracker (India)</a></div>
+
+<h2>FAQ</h2>
+<details><summary>What is the threshold?</summary><p>For most states the aggregate-turnover limit for suppliers of services is Rs 20 lakh per financial year, and Rs 10 lakh in special-category states. Always check the current notification.</p></details>
+<details><summary>Do foreign payments count?</summary><p>Income from clients abroad generally counts toward turnover. Export of services is usually zero-rated, often supported by an annual Letter of Undertaking, but the details depend on your case. Ask a CA.</p></details>
+<details><summary>Which exchange rate should I use?</summary><p>Use the rate you actually received when the money landed, and keep the payment advice (e-FIRA) for each foreign credit.</p></details>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+function calc(income, rate, month, threshold) {
+  const inr = income * rate, pct = inr / threshold;
+  const perMonth = month > 0 ? inr / month : 0;
+  const monthsLeft = perMonth > 0 ? Math.max(0, (threshold - inr) / perMonth) : Infinity;
+  return {inr, pct, perMonth, monthsLeft};
+}
+function render() {
+  const cur = $('cur').value; $('fxrow').hidden = cur === 'INR';
+  const r = calc(+$('inc').value || 0, cur === 'INR' ? 1 : (+$('fx').value || 0), +$('mon').value || 1, +$('thr').value);
+  $('pct').textContent = (r.pct * 100).toFixed(1) + '% of the threshold';
+  $('fill').style.width = Math.min(100, r.pct * 100) + '%';
+  $('fill').style.background = r.pct >= 1 ? 'var(--bad)' : r.pct >= 0.8 ? 'var(--warn)' : 'var(--ok)';
+  const f = n => n.toLocaleString('en-IN', {maximumFractionDigits: 0});
+  $('status').textContent = r.pct >= 1 ? 'You are over the threshold. Talk to a CA now.' : r.pct >= 0.8 ? 'Near the threshold (80% or more). Plan with a CA.' : r.pct >= 0.5 ? 'Over half of the threshold.' : 'Comfortably below the threshold.';
+  $('proj').textContent = `Income so far: Rs ${f(r.inr)}. Average Rs ${f(r.perMonth)} per month` + (r.pct < 1 && isFinite(r.monthsLeft) ? `; at this pace you would cross in about ${r.monthsLeft.toFixed(1)} more months (the financial year has ${12 - (+$('mon').value || 1)} left).` : '.');
+}
+['inc', 'cur', 'fx', 'mon', 'thr'].forEach(id => $(id).addEventListener('input', render)); render();
+</script>
+</body>
+</html>
