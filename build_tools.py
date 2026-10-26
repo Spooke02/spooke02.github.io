@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE = "https://spooke02.github.io/"
 NAV = [("", "Spooke"), ("gst-calculator.html", "GST calculator"), ("invoice-generator.html", "Invoice generator"),
-       ("freelance-hourly-rate-calculator.html", "Hourly rate"), ("payment-reminder-message-generator.html", "Reminder messages")]
+       ("freelance-hourly-rate-calculator.html", "Hourly rate"), ("payment-reminder-message-generator.html", "Reminder messages"), ("resize-photo-to-kb-and-pixels.html", "Photo resizer")]
 
 TEMPLATE = """<!doctype html>
 <html lang="en">
@@ -182,6 +182,8 @@ $('add').onclick=()=>{items.push({d:'',q:1,r:0});drawItems();render()};$('print'
 
 
 def build():
+    import pages_more
+    pages_more.add_pages(PAGES, FREELANCE_CTA)
     out = Path(__file__).parent
     nav = "".join(f'<a href="{"/" if p == "" else p}">{t}</a>' for p, t in NAV)
     for fname, p in PAGES.items():
