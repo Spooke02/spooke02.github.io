@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelance Hourly Rate Calculator (India): What Should You Charge?</title>
+<meta name="description" content="Work out the hourly rate a freelancer in India needs from a monthly income goal, business costs, a tax reserve and realistic billable hours. Free, runs in your browser.">
+<link rel="canonical" href="https://spooke02.github.io/freelance-hourly-rate-calculator.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a></nav>
+<h1>Freelance hourly rate calculator</h1>
+<p class="lead">Start from the monthly money you need, add costs and a tax reserve, and divide by the hours you can really bill.</p>
+<div class="card"><div class="row">
+ <div><label for="take">Monthly take-home you want (Rs)</label><input id="take" type="number" min="0" step="any" value="60000"></div>
+ <div><label for="cost">Monthly business costs (Rs)</label><input id="cost" type="number" min="0" step="any" value="5000"></div>
+ <div><label for="tax">Tax reserve (% of earnings)</label><input id="tax" type="number" min="0" max="60" step="any" value="15"></div>
+ <div><label for="hrs">Billable hours per week</label><input id="hrs" type="number" min="1" step="any" value="20"></div>
+ <div><label for="wks">Working weeks per year</label><input id="wks" type="number" min="1" max="52" step="any" value="46"></div>
+ <div><label for="cur">Show in</label><select id="cur"><option value="1">INR</option><option value="usd">USD (enter rate)</option></select></div>
+ <div id="fxw" hidden><label for="fx">INR per 1 USD</label><input id="fx" type="number" min="0" step="any" value="84"></div>
+</div></div>
+<div class="card" aria-live="polite"><div class="big" id="hr">-</div><p id="det" class="note"></p></div>
+<div class="card"><b>Freelancer Income Tracker (India)</b><p>Keep payments, INR conversion, GST-threshold progress and e-FIRA/FIRC checks in one Excel sheet.</p><a class="cta" href="https://spooke0.gumroad.com/l/freelancer-tracker-india">Get the tracker</a></div>
+<p class="note">Planning estimate only. Your tax reserve depends on your situation; ask a Chartered Accountant. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function rate(take,cost,tax,hrs,wks){ const gross=(take+cost)/(1-tax/100); const hoursPerMonth=hrs*wks/12; return {gross,hoursPerMonth,hourly:gross/hoursPerMonth}}
+const f=n=>n.toLocaleString('en-IN',{maximumFractionDigits:0});
+function render(){ $('fxw').hidden=$('cur').value!=='usd';
+ const r=rate(+$('take').value||0,+$('cost').value||0,Math.min(+$('tax').value||0,95),+$('hrs').value||1,+$('wks').value||1);
+ const usd=$('cur').value==='usd', fx=+$('fx').value||1;
+ $('hr').textContent=usd?('$'+(r.hourly/fx).toFixed(2)+' per hour'):('Rs '+f(r.hourly)+' per hour');
+ $('det').textContent=`You need about Rs ${f(r.gross)} of billings per month across ${r.hoursPerMonth.toFixed(0)} billable hours. Unbilled time (finding clients, admin, revisions) is why billable hours are lower than hours worked.`}
+['take','cost','tax','hrs','wks','cur','fx'].forEach(i=>$(i).addEventListener('input',render));render();
+</script>
+</body>
+</html>

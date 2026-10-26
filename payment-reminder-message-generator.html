@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment Reminder Message Generator (Polite to Firm) for Invoices and Fees</title>
+<meta name="description" content="Free payment reminder message maker: generate a polite, neutral or firm WhatsApp or email reminder for an unpaid invoice, fee or udhar. Copy and send.">
+<link rel="canonical" href="https://spooke02.github.io/payment-reminder-message-generator.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a></nav>
+<h1>Payment reminder message generator</h1>
+<p class="lead">Fill in the details and copy a ready message: polite, neutral or firm. You review and send it yourself.</p>
+<div class="card"><div class="row">
+ <div><label for="nm">Their name</label><input id="nm" value="Rahul"></div>
+ <div><label for="amt">Amount (Rs)</label><input id="amt" type="number" min="0" step="any" value="5000"></div>
+ <div><label for="ref">For (invoice / fee / items)</label><input id="ref" value="invoice INV-012"></div>
+ <div><label for="due">Due date</label><input id="due" type="date"></div>
+ <div><label for="me">Your name</label><input id="me" value="Akshat"></div>
+ <div><label for="pay">How to pay (UPI / bank)</label><input id="pay" placeholder="e.g. UPI: name@bank"></div>
+ <div><label for="tone">Tone</label><select id="tone"><option value="soft">Polite (first reminder)</option><option value="mid">Neutral (second reminder)</option><option value="firm">Firm (overdue)</option></select></div>
+</div></div>
+<div class="card"><label for="out">Your message</label><textarea id="out" readonly></textarea><p><button id="copy" type="button" class="small">Copy message</button> <span id="ok" class="note"></span></p></div>
+<div class="card"><b>Shop Udhar Khata Ledger</b><p>Track who owes you, how much, and who is overdue, in one Excel or Google Sheets file.</p><a class="cta" href="https://spooke0.gumroad.com/l/shop-udhar-khata">Get the ledger</a></div>
+<p class="note">Messages are templates; check them before sending and follow any agreement you have. Not legal advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function msg(v){ const amt=Number(v.amt).toLocaleString('en-IN'); const due=v.due?` (due ${new Date(v.due+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})})`:'';
+ const pay=v.pay?`\nYou can pay here: ${v.pay}`:'';
+ if(v.tone==='soft') return `Hi ${v.nm}, a gentle reminder that Rs ${amt} for ${v.ref}${due} is still pending. If you have already paid, please ignore this and share the payment details so I can update my records.${pay}\nThank you!\n- ${v.me}`;
+ if(v.tone==='mid') return `Hello ${v.nm}, following up on my earlier message: Rs ${amt} for ${v.ref}${due} is still unpaid. Could you confirm when I can expect the payment?${pay}\nThanks,\n${v.me}`;
+ return `Hello ${v.nm}, Rs ${amt} for ${v.ref}${due} is now overdue. Please clear it by [date] or let me know today if there is a problem so we can agree on a plan.${pay}\nRegards,\n${v.me}`}
+function render(){ $('out').value=msg({nm:$('nm').value||'there',amt:$('amt').value||0,ref:$('ref').value||'the amount due',due:$('due').value,me:$('me').value,pay:$('pay').value,tone:$('tone').value})}
+['nm','amt','ref','due','me','pay','tone'].forEach(i=>$(i).addEventListener('input',render));
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText($('out').value);$('ok').textContent='Copied.'}catch(e){$('out').select();$('ok').textContent='Press Ctrl+C to copy.'}};render();
+</script>
+</body>
+</html>
