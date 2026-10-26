@@ -184,6 +184,8 @@ $('add').onclick=()=>{items.push({d:'',q:1,r:0});drawItems();render()};$('print'
 def build():
     import pages_more
     pages_more.add_pages(PAGES, FREELANCE_CTA)
+    import pages_guides
+    pages_guides.add_pages(PAGES)
     out = Path(__file__).parent
     nav = "".join(f'<a href="{"/" if p == "" else p}">{t}</a>' for p, t in NAV)
     for fname, p in PAGES.items():

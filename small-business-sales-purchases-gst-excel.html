@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track Small Business Sales, Purchases and GST in Excel</title>
+<meta name="description" content="A simple monthly method to record sales, purchases and expenses with GST in Excel or Google Sheets and see GST collected, GST paid and a simple profit, with formulas.">
+<link rel="canonical" href="https://spooke02.github.io/small-business-sales-purchases-gst-excel.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+h2{margin:28px 0 8px;font-size:1.25rem}.guide p,.guide li{max-width:68ch}pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a><a href="resize-photo-to-kb-and-pixels.html">Photo resizer</a></nav>
+<h1>Track sales, purchases and GST in Excel</h1>
+<p class="lead">A simple monthly view of what you sold, what you bought, the GST on each and a rough profit.</p>
+<div class="guide"><h2>1. Three sheets</h2>
+<ul><li><b>Sales</b>: date, invoice no, customer, taxable value, GST rate %.</li><li><b>Purchases</b>: date, bill no, supplier, taxable value, GST rate %.</li><li><b>Expenses</b>: date, category, amount (costs without GST credit).</li></ul>
+<h2>2. GST and totals per row</h2>
+<p>Columns on Sales and Purchases: A date, B number, C name, D taxable value, E GST rate %, then F and G are formulas.</p>
+<pre>F2 GST amount:  =D2*E2/100
+G2 Total:       =D2+F2</pre>
+<h2>3. A monthly summary</h2>
+<p>Put the year in B3 and the month number in B4, then:</p>
+<pre>Sales (taxable):  =SUMIFS(Sales!D:D, Sales!A:A, "&gt;="&amp;DATE(B3,B4,1), Sales!A:A, "&lt;"&amp;EDATE(DATE(B3,B4,1),1))
+GST on sales:     =SUMIFS(Sales!F:F, ...same dates...)
+GST on purchases: =SUMIFS(Purchases!F:F, ...same dates...)
+Net GST estimate: = GST on sales - GST on purchases</pre>
+<p><b>Important:</b> that net figure is a planning estimate. Your actual GST liability depends on your registration, the items you sell and credit rules. Confirm with a Chartered Accountant.</p>
+<h2>4. Simple profit</h2>
+<pre>Profit = Sales (taxable) - Purchases (taxable) - Other expenses</pre>
+<p>The ready-made template below has these sheets and the monthly summary set up.</p></div>
+<div class="card"><b>Small Business Sales, Purchases & GST Summary</b><p>Sales, purchases, expenses and a monthly GST and profit summary, ready to use. GST figure is an estimate.</p><a class="cta" href="https://spooke0.gumroad.com/l/small-business-gst-summary">Get the template</a></div>
+<p class="note">General guidance for record-keeping. Formulas work in Excel and Google Sheets. Not tax, legal or financial advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+
+</script>
+</body>
+</html>

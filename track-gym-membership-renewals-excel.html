@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Track Gym, Salon or Library Membership Renewals in Excel</title>
+<meta name="description" content="A simple Excel or Google Sheets method to track membership end dates, days left and who is expiring soon or expired, with copy-paste formulas.">
+<link rel="canonical" href="https://spooke02.github.io/track-gym-membership-renewals-excel.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+h2{margin:28px 0 8px;font-size:1.25rem}.guide p,.guide li{max-width:68ch}pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a><a href="resize-photo-to-kb-and-pixels.html">Photo resizer</a></nav>
+<h1>Track membership renewals in Excel</h1>
+<p class="lead">Know who is about to expire before they do, with end dates and a status that update by themselves.</p>
+<div class="guide"><h2>1. One sheet to start</h2>
+<p>Columns: A member ID, B name, C phone (optional), D plan, E start date, F months paid, G fee paid. Then three formula columns: H end date, I days left, J status.</p>
+<h2>2. The formulas</h2>
+<p>For row 2 (start date in E2, months paid in F2):</p>
+<pre>H2 End date:   =EDATE(E2, F2)
+I2 Days left:  =H2-TODAY()
+J2 Status:     =IF(I2&lt;0, "Expired", IF(I2&lt;=7, "Expiring soon", "Active"))</pre>
+<p>Change 7 to the number of days of warning you want. Add conditional formatting so Expired is red and Expiring soon is amber.</p>
+<h2>3. Renewals</h2>
+<ul><li>When someone renews, set a new start date (or add a new row if you want a history).</li><li>Sort by days left to see the next renewals first.</li><li>Count each status with <code>=COUNTIF(J:J,"Expiring soon")</code>.</li><li>Keep members' details private.</li></ul>
+<p>The ready-made tracker below has the formulas, colour highlights and a summary already set up.</p></div>
+<div class="card"><b>Membership Renewal Tracker</b><p>End dates, days left and Active / Expiring soon / Expired status, ready to use.</p><a class="cta" href="https://spooke0.gumroad.com/l/membership-renewal-tracker">Get the tracker</a></div>
+<p class="note">General guidance for record-keeping. Formulas work in Excel and Google Sheets. Not tax, legal or financial advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+
+</script>
+</body>
+</html>

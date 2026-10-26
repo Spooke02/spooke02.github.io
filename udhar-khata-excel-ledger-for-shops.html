@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Udhar Khata in Excel: Track Customer Credit for Your Shop</title>
+<meta name="description" content="How to keep a simple udhar (customer credit) ledger in Excel or Google Sheets: who owes what, last credit date and overdue customers, with copy-paste formulas.">
+<link rel="canonical" href="https://spooke02.github.io/udhar-khata-excel-ledger-for-shops.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+h2{margin:28px 0 8px;font-size:1.25rem}.guide p,.guide li{max-width:68ch}pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a><a href="resize-photo-to-kb-and-pixels.html">Photo resizer</a></nav>
+<h1>Udhar khata in Excel: track customer credit for your shop</h1>
+<p class="lead">A clean way to see who owes you, how much, and who is overdue, without a paper notebook.</p>
+<div class="guide"><h2>1. Two sheets</h2>
+<ul><li><b>Customers</b>: customer ID, name, optional phone.</li><li><b>Transactions</b>: date, customer ID, type (Credit or Payment), amount, note.</li></ul>
+<h2>2. Balances by formula</h2>
+<p>Customers columns: A ID, B name, C phone. Transactions columns: A date, B customer ID, C type, D amount. Add D to I to Customers. For row 2:</p>
+<pre>D2 Total credit:  =SUMIFS(Transactions!$D:$D, Transactions!$B:$B, A2, Transactions!$C:$C, "Credit")
+E2 Total paid:    =SUMIFS(Transactions!$D:$D, Transactions!$B:$B, A2, Transactions!$C:$C, "Payment")
+F2 Balance:       =D2-E2</pre>
+<h2>3. Last credit date and overdue</h2>
+<pre>G2 Last credit:   =MAXIFS(Transactions!$A:$A, Transactions!$B:$B, A2, Transactions!$C:$C, "Credit")
+H2 Days since:    =TODAY()-G2
+I2 Overdue?:      =IF(AND(F2&gt;0, H2&gt;30), "Overdue", IF(F2&gt;0, "Owes", "Clear"))</pre>
+<p>MAXIFS needs Excel 2019 or newer, or Google Sheets. Change 30 to the number of days you allow.</p>
+<h2>4. Good habits</h2>
+<ul><li>Write every credit and every payment as a separate row, never edit old rows.</li><li>Agree the credit limit and due date with the customer when you give credit.</li><li>Keep customer details private.</li></ul>
+<p>The ready-made ledger below has these sheets, the formulas and a summary of the biggest dues.</p></div>
+<div class="card"><b>Shop Udhar Khata Ledger</b><p>Customers, transactions and a summary of overdue and biggest dues, ready to use.</p><a class="cta" href="https://spooke0.gumroad.com/l/shop-udhar-khata">Get the ledger</a></div>
+<p class="note">General guidance for record-keeping. Formulas work in Excel and Google Sheets. Not tax, legal or financial advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+
+</script>
+</body>
+</html>
