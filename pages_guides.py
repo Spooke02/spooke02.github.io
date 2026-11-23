@@ -89,6 +89,22 @@ J2 Status:     =IF(I2<0, "Expired", IF(I2<=7, "Expiring soon", "Active"))</pre>
 <ul><li>When someone renews, set a new start date (or add a new row if you want a history).</li><li>Sort by days left to see the next renewals first.</li><li>Count each status with <code>=COUNTIF(J:J,"Expiring soon")</code>.</li><li>Keep members' details private.</li></ul>
 <p>The ready-made tracker below has the formulas, colour highlights and a summary already set up.</p>""",
               ("Membership Renewal Tracker", "End dates, days left and Active / Expiring soon / Expired status, ready to use.", "https://spooke0.gumroad.com/l/membership-renewal-tracker", "Get the tracker")),
+        guide("make-many-invoices-from-excel.html",
+              "How to Make Many PDF Invoices at Once from an Excel Sheet",
+              "A practical method to create a batch of invoices from an Excel sheet: the columns you need, how to group lines into one invoice, GST options and a checklist before sending.",
+              "How to make many PDF invoices at once from Excel",
+              "If you invoice several clients each month, typing each invoice by hand wastes time. Keep one sheet and turn its rows into invoices.",
+              """<h2>1. Keep one sheet of invoice lines</h2>
+<p>Use one row per invoice line with these columns: <b>Invoice no, Date, Client name, Client address, Item description, Qty, Rate, GST %</b>. Rows that share an invoice number belong to the same invoice, so a two-item invoice is two rows with the same number.</p>
+<h2>2. Check the numbers before you send</h2>
+<ul><li>Amount per line = quantity times rate. Round to two decimals.</li><li>GST per line = amount times the GST rate. Add the lines up for the invoice total.</li><li>Keep invoice numbers unique and in order, with no gaps you cannot explain.</li><li>If you use CGST and SGST, each is half of the GST amount; for IGST show one amount.</li></ul>
+<h2>3. Put your own details in one place</h2>
+<p>Your name, address, GSTIN (only if you are registered), currency and payment details should live in a settings area, not be retyped on every invoice.</p>
+<h2>4. Make the PDFs</h2>
+<p>You can build each PDF by hand from a template, or use a tool that reads the sheet and writes one PDF per invoice. The <a href="invoice-generator.html">free invoice generator</a> on this site makes one invoice at a time in your browser. For a whole batch, the Bulk Invoice Maker below reads the Excel sheet and creates every PDF in one click, and lists any row it could not use.</p>
+<h2>5. Before you send</h2>
+<ul><li>Check that each invoice meets the rules that apply to you (GST invoices need specific details).</li><li>Agree payment terms in writing, and keep a copy of every invoice.</li><li>Record payments against invoice numbers so you can chase late ones; see the <a href="payment-reminder-message-generator.html">reminder message generator</a>.</li></ul>""",
+              ("Bulk Invoice Maker (Windows)", "Excel rows in, one PDF invoice per invoice number out. Optional GST, works offline. Unsigned program, so Windows may show a warning.", "https://spooke0.gumroad.com/l/bulk-invoice-maker", "Get the Bulk Invoice Maker")),
         guide("small-business-sales-purchases-gst-excel.html",
               "Track Small Business Sales, Purchases and GST in Excel",
               "A simple monthly method to record sales, purchases and expenses with GST in Excel or Google Sheets and see GST collected, GST paid and a simple profit, with formulas.",

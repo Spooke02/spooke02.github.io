@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Make Many PDF Invoices at Once from an Excel Sheet</title>
+<meta name="description" content="A practical method to create a batch of invoices from an Excel sheet: the columns you need, how to group lines into one invoice, GST options and a checklist before sending.">
+<link rel="canonical" href="https://spooke02.github.io/make-many-invoices-from-excel.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+h2{margin:28px 0 8px;font-size:1.25rem}.guide p,.guide li{max-width:68ch}pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a><a href="resize-photo-to-kb-and-pixels.html">Photo resizer</a></nav>
+<h1>How to make many PDF invoices at once from Excel</h1>
+<p class="lead">If you invoice several clients each month, typing each invoice by hand wastes time. Keep one sheet and turn its rows into invoices.</p>
+<div class="guide"><h2>1. Keep one sheet of invoice lines</h2>
+<p>Use one row per invoice line with these columns: <b>Invoice no, Date, Client name, Client address, Item description, Qty, Rate, GST %</b>. Rows that share an invoice number belong to the same invoice, so a two-item invoice is two rows with the same number.</p>
+<h2>2. Check the numbers before you send</h2>
+<ul><li>Amount per line = quantity times rate. Round to two decimals.</li><li>GST per line = amount times the GST rate. Add the lines up for the invoice total.</li><li>Keep invoice numbers unique and in order, with no gaps you cannot explain.</li><li>If you use CGST and SGST, each is half of the GST amount; for IGST show one amount.</li></ul>
+<h2>3. Put your own details in one place</h2>
+<p>Your name, address, GSTIN (only if you are registered), currency and payment details should live in a settings area, not be retyped on every invoice.</p>
+<h2>4. Make the PDFs</h2>
+<p>You can build each PDF by hand from a template, or use a tool that reads the sheet and writes one PDF per invoice. The <a href="invoice-generator.html">free invoice generator</a> on this site makes one invoice at a time in your browser. For a whole batch, the Bulk Invoice Maker below reads the Excel sheet and creates every PDF in one click, and lists any row it could not use.</p>
+<h2>5. Before you send</h2>
+<ul><li>Check that each invoice meets the rules that apply to you (GST invoices need specific details).</li><li>Agree payment terms in writing, and keep a copy of every invoice.</li><li>Record payments against invoice numbers so you can chase late ones; see the <a href="payment-reminder-message-generator.html">reminder message generator</a>.</li></ul></div>
+<div class="card"><b>Bulk Invoice Maker (Windows)</b><p>Excel rows in, one PDF invoice per invoice number out. Optional GST, works offline. Unsigned program, so Windows may show a warning.</p><a class="cta" href="https://spooke0.gumroad.com/l/bulk-invoice-maker">Get the Bulk Invoice Maker</a></div>
+<p class="note">General guidance for record-keeping. Formulas work in Excel and Google Sheets. Not tax, legal or financial advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+
+</script>
+</body>
+</html>
