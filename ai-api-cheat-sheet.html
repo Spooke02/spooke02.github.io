@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI API Cheat Sheet: Request Formats, Status Codes, Retries and JSON Output</title>
+<meta name="description" content="A free cheat sheet for calling LLM APIs: OpenAI-compatible and Anthropic request shapes, base URLs for Gemini, Groq and Ollama, HTTP error handling, a retry policy and a JSON checklist.">
+<link rel="canonical" href="https://spooke02.github.io/ai-api-cheat-sheet.html">
+<style>
+:root{--bg:#f7f8fa;--card:#fff;--text:#14213d;--muted:#5b6678;--line:#e3e7ee;--accent:#1f3a5f;--ok:#2e8b57}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1624;--card:#17213a;--text:#eef2f8;--muted:#a3b0c4;--line:#27344f;--accent:#f5c542}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:24px 20px 56px}h1{font-size:1.9rem;line-height:1.2;margin:8px 0 8px}p.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}input,select,textarea,button{width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+textarea{min-height:90px}button{background:var(--accent);color:#fff;font-weight:600;cursor:pointer}@media(prefers-color-scheme:dark){button{color:#0f1624}}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}.big{font-size:2rem;font-weight:700}.note{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}nav a{margin-right:14px;white-space:nowrap}nav{overflow-x:auto;padding-bottom:4px}
+.cta{display:inline-block;width:auto;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;padding:10px 18px;border-radius:10px}@media(prefers-color-scheme:dark){.cta{color:#0f1624}}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left}td.r,th.r{text-align:right}
+button.small{width:auto;padding:6px 12px}details{margin:8px 0}
+h2{margin:28px 0 8px;font-size:1.25rem}.guide p,.guide li{max-width:68ch}pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;font-size:.88rem}
+</style>
+</head>
+<body><div class="wrap">
+<nav aria-label="Site"><a href="/">Spooke</a><a href="gst-calculator.html">GST calculator</a><a href="invoice-generator.html">Invoice generator</a><a href="freelance-hourly-rate-calculator.html">Hourly rate</a><a href="payment-reminder-message-generator.html">Reminder messages</a><a href="resize-photo-to-kb-and-pixels.html">Photo resizer</a></nav>
+<h1>AI API cheat sheet</h1>
+<p class="lead">The request shapes, status codes and habits that make an AI feature reliable. Check each provider's own docs for current model names and limits.</p>
+<div class="guide"><h2>Two request shapes cover most providers</h2>
+<p><b>OpenAI-compatible:</b> POST to <code>{base_url}/chat/completions</code> with the header <code>Authorization: Bearer YOUR_KEY</code> (local servers often need none). The body needs <code>model</code> and <code>messages</code>. The reply text is in <code>choices[0].message.content</code>, and token counts are in <code>usage.prompt_tokens</code> and <code>usage.completion_tokens</code>. The system prompt is the first message with role "system".</p>
+<p><b>Anthropic (Claude):</b> POST to <code>https://api.anthropic.com/v1/messages</code> with the headers <code>x-api-key</code> and <code>anthropic-version: 2023-06-01</code>. The body needs <code>model</code>, <code>max_tokens</code> and <code>messages</code>; the system prompt is a top-level <code>system</code> field. The reply is a list of content blocks where the type is "text", and usage is <code>input_tokens</code> and <code>output_tokens</code>.</p>
+<h2>Base URLs for OpenAI-compatible services</h2>
+<ul><li>Google Gemini: <code>https://generativelanguage.googleapis.com/v1beta/openai</code> (a free tier is available)</li><li>Groq: <code>https://api.groq.com/openai/v1</code></li><li>OpenRouter: <code>https://openrouter.ai/api/v1</code></li><li>Ollama (on your own PC, no key): <code>http://127.0.0.1:11434/v1</code></li></ul>
+<p>Model names change often and differ per account. Test with a tiny request first ("Reply with: ok").</p>
+<h2>HTTP status codes and what to do</h2>
+<ul><li><b>400:</b> bad request (shape, model name, too long). Fix it; do not retry.</li><li><b>401 / 403:</b> wrong key or no permission. Do not retry.</li><li><b>404:</b> wrong URL or unknown model.</li><li><b>408 / 429:</b> timeout or rate limit. Retry with backoff and honour the <code>Retry-After</code> header.</li><li><b>500 / 502 / 503:</b> provider problem. Retry with backoff, then fall back to another provider.</li></ul>
+<h2>A retry policy that works</h2>
+<pre>wait = base * 2**attempt * random(0.5..1.0)   # exponential backoff with jitter
+use Retry-After if the server sends it; cap at about 60 s; 2-3 retries, then fall back</pre>
+<h2>Getting dependable JSON</h2>
+<ul><li>Say "reply with only a JSON value", give the exact shape, and use temperature 0.</li><li>Parse tolerantly: replies are sometimes wrapped in code fences or have a sentence before the JSON.</li><li>Validate types, required keys, allowed values and ranges. Never trust an unchecked number or category.</li><li>If a reply is wrong, retry once and include the exact error.</li><li>Decide what happens if it still fails: a rule-based fallback or a clear message, not a crash.</li></ul>
+<h2>Cost, speed and safety</h2>
+<ul><li>Cache answers for identical requests and use the smallest model that passes your tests.</li><li>Rate-limit on your side to protect free-tier quotas, and log tokens and latency.</li><li>Keep API keys in environment variables, never in source code or a public repo; redact them from logs.</li><li>Treat model output as untrusted: validate it, and escape it before showing it on a web page.</li><li>Treat text you feed in as possible prompt injection, and rate-limit any public endpoint that calls a model.</li></ul>
+<p>The paid <b>AI Gateway Lite</b> below implements the retry policy, fallback, cache, rate limit and JSON validation in one small tested Python file, and includes this cheat sheet as a 2-page PDF.</p></div>
+<div class="card"><b>AI Gateway Lite (Python)</b><p>One tiny dependency-free library for Gemini, Groq, Ollama and Claude: fallback, retries, cache, rate limit and validated JSON. 26 tests, 5 examples and a cheat sheet PDF.</p><a class="cta" href="https://spooke0.gumroad.com/l/ai-gateway-lite">Get AI Gateway Lite</a></div>
+<p class="note">General guidance for record-keeping. Formulas work in Excel and Google Sheets. Not tax, legal or financial advice. Everything runs in your browser; nothing you type is sent anywhere.</p>
+</div>
+<script>
+
+</script>
+</body>
+</html>

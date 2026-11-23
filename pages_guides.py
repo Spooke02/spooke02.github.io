@@ -105,6 +105,28 @@ J2 Status:     =IF(I2<0, "Expired", IF(I2<=7, "Expiring soon", "Active"))</pre>
 <h2>5. Before you send</h2>
 <ul><li>Check that each invoice meets the rules that apply to you (GST invoices need specific details).</li><li>Agree payment terms in writing, and keep a copy of every invoice.</li><li>Record payments against invoice numbers so you can chase late ones; see the <a href="payment-reminder-message-generator.html">reminder message generator</a>.</li></ul>""",
               ("Bulk Invoice Maker (Windows)", "Excel rows in, one PDF invoice per invoice number out. Optional GST, works offline. Unsigned program, so Windows may show a warning.", "https://spooke0.gumroad.com/l/bulk-invoice-maker", "Get the Bulk Invoice Maker")),
+        guide("ai-api-cheat-sheet.html",
+              "AI API Cheat Sheet: Request Formats, Status Codes, Retries and JSON Output",
+              "A free cheat sheet for calling LLM APIs: OpenAI-compatible and Anthropic request shapes, base URLs for Gemini, Groq and Ollama, HTTP error handling, a retry policy and a JSON checklist.",
+              "AI API cheat sheet",
+              "The request shapes, status codes and habits that make an AI feature reliable. Check each provider's own docs for current model names and limits.",
+              """<h2>Two request shapes cover most providers</h2>
+<p><b>OpenAI-compatible:</b> POST to <code>{base_url}/chat/completions</code> with the header <code>Authorization: Bearer YOUR_KEY</code> (local servers often need none). The body needs <code>model</code> and <code>messages</code>. The reply text is in <code>choices[0].message.content</code>, and token counts are in <code>usage.prompt_tokens</code> and <code>usage.completion_tokens</code>. The system prompt is the first message with role "system".</p>
+<p><b>Anthropic (Claude):</b> POST to <code>https://api.anthropic.com/v1/messages</code> with the headers <code>x-api-key</code> and <code>anthropic-version: 2023-06-01</code>. The body needs <code>model</code>, <code>max_tokens</code> and <code>messages</code>; the system prompt is a top-level <code>system</code> field. The reply is a list of content blocks where the type is "text", and usage is <code>input_tokens</code> and <code>output_tokens</code>.</p>
+<h2>Base URLs for OpenAI-compatible services</h2>
+<ul><li>Google Gemini: <code>https://generativelanguage.googleapis.com/v1beta/openai</code> (a free tier is available)</li><li>Groq: <code>https://api.groq.com/openai/v1</code></li><li>OpenRouter: <code>https://openrouter.ai/api/v1</code></li><li>Ollama (on your own PC, no key): <code>http://127.0.0.1:11434/v1</code></li></ul>
+<p>Model names change often and differ per account. Test with a tiny request first ("Reply with: ok").</p>
+<h2>HTTP status codes and what to do</h2>
+<ul><li><b>400:</b> bad request (shape, model name, too long). Fix it; do not retry.</li><li><b>401 / 403:</b> wrong key or no permission. Do not retry.</li><li><b>404:</b> wrong URL or unknown model.</li><li><b>408 / 429:</b> timeout or rate limit. Retry with backoff and honour the <code>Retry-After</code> header.</li><li><b>500 / 502 / 503:</b> provider problem. Retry with backoff, then fall back to another provider.</li></ul>
+<h2>A retry policy that works</h2>
+<pre>wait = base * 2**attempt * random(0.5..1.0)   # exponential backoff with jitter
+use Retry-After if the server sends it; cap at about 60 s; 2-3 retries, then fall back</pre>
+<h2>Getting dependable JSON</h2>
+<ul><li>Say "reply with only a JSON value", give the exact shape, and use temperature 0.</li><li>Parse tolerantly: replies are sometimes wrapped in code fences or have a sentence before the JSON.</li><li>Validate types, required keys, allowed values and ranges. Never trust an unchecked number or category.</li><li>If a reply is wrong, retry once and include the exact error.</li><li>Decide what happens if it still fails: a rule-based fallback or a clear message, not a crash.</li></ul>
+<h2>Cost, speed and safety</h2>
+<ul><li>Cache answers for identical requests and use the smallest model that passes your tests.</li><li>Rate-limit on your side to protect free-tier quotas, and log tokens and latency.</li><li>Keep API keys in environment variables, never in source code or a public repo; redact them from logs.</li><li>Treat model output as untrusted: validate it, and escape it before showing it on a web page.</li><li>Treat text you feed in as possible prompt injection, and rate-limit any public endpoint that calls a model.</li></ul>
+<p>The paid <b>AI Gateway Lite</b> below implements the retry policy, fallback, cache, rate limit and JSON validation in one small tested Python file, and includes this cheat sheet as a 2-page PDF.</p>""",
+              ("AI Gateway Lite (Python)", "One tiny dependency-free library for Gemini, Groq, Ollama and Claude: fallback, retries, cache, rate limit and validated JSON. 26 tests, 5 examples and a cheat sheet PDF.", "https://spooke0.gumroad.com/l/ai-gateway-lite", "Get AI Gateway Lite")),
         guide("small-business-sales-purchases-gst-excel.html",
               "Track Small Business Sales, Purchases and GST in Excel",
               "A simple monthly method to record sales, purchases and expenses with GST in Excel or Google Sheets and see GST collected, GST paid and a simple profit, with formulas.",
